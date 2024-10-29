@@ -1,5 +1,5 @@
-import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/home/home_screen.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/login/login_bloc/bloc_login.dart';
+import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/user_info/user_info_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
           listener: (context, state) {
             if (state is LoginSuccessful) {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()))
+                  MaterialPageRoute(builder: (context) => UserInfoScreen(accessToken: state.accessToken,)))
                   .then((_) {
                 context.read<LoginBloc>().add(const LoginReset());
               });

@@ -1,29 +1,26 @@
 
+import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/repository/login_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'bloc_login.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState>{
-  LoginBloc(): super(const LoginInitial()) {
+
+  final LoginRepository _loginRepo;
+
+  LoginBloc(this._loginRepo): super(const LoginInitial()) {
     on<LoginPress> (_loginCheck);
     on<LoginReset> (_loginReset);
 
   }
 
-  void _loginCheck (LoginPress event, Emitter emit){
-    bool isAccount = false;
-    bool isPassword = false;
+  void _loginCheck (LoginPress event, Emitter emit) async{
 
-    if(event.account == "loc")
-      isAccount = true;
-    if(event.password == "12345")
-      isPassword = true;
-
-    if(isAccount && isPassword) {
-      emit(const LoginSuccessful(message: "Login successful"));
+    try{
+      String accessToken = await _loginRepo.loginAuthenticate(event.account, event.password);
+      emit( LoginSuccessful(accessToken: accessToken));
     }
-    else {
-      emit( LoginError(isAccount: isAccount, isPassword: isPassword));
+    catch(error){
+      emit(const LoginError());
     }
   }
   void _loginReset(LoginReset event, Emitter emit){

@@ -16,18 +16,15 @@ class LoginInitial extends LoginState{
   List<Object> get props =>[];
 }
 class LoginSuccessful extends LoginState{
-  final String message;
+  final String accessToken;
 
-  const LoginSuccessful({required this.message});
+  const LoginSuccessful({required this.accessToken});
 
   @override
   List<Object> get props=> [];
 }
 class LoginError extends LoginState{
-  final bool isAccount;
-  final bool isPassword;
-
-  const LoginError({required this.isAccount, required this.isPassword});
+  const LoginError();
 
 
   List<Object> get prop => [];
