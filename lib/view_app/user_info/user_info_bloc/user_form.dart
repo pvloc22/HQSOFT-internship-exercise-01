@@ -25,7 +25,12 @@ class _UserFormState extends State<UserForm> {
       appBar: AppBar(title: const Text("Home Screen"),),
       body: BlocBuilder<UserInfoBloc, UserInfoState>(
         builder: (context, state) {
-          if(state is UserInfoFetchSuccessful){
+          if(state is UserInfoLoad){
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          else if(state is UserInfoFetchSuccessful){
             return Center(
               child: Container(
                 height: MediaQuery.of(context).size.height*1/4,
@@ -37,14 +42,14 @@ class _UserFormState extends State<UserForm> {
                     ),
                     borderRadius: BorderRadius.circular(20)
                 ),
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: Text('Information ${state.userInfo.username}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                        child: Text('Information ${state.userInfo.username}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                       ),
                       Text('FullName: ${state.userInfo.fullName}'),
                       Text('Address: ${state.userInfo.address}'),
@@ -70,7 +75,6 @@ class _UserFormState extends State<UserForm> {
               child: Text('Initial information'),
             );
           }
-
         },
       )
     );

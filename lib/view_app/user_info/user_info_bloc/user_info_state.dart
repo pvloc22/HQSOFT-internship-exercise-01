@@ -16,6 +16,12 @@ class UserInfoInitial extends UserInfoState{
   @override
   List<Object> get props => [];
 }
+class UserInfoLoad extends UserInfoState{
+
+  @override
+  List<Object> get props => [];
+}
+
 class UserInfoFetchSuccessful extends UserInfoState{
   final User userInfo;
 

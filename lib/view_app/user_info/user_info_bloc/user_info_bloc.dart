@@ -12,6 +12,7 @@ class UserInfoBloc extends Bloc<UserInfoEvent, UserInfoState>{
   }
 
   void _userInfoLoad(FetchUserInfo event, Emitter emit) async{
+    emit(UserInfoLoad());
     try{
       User userInfo = await _userRepo.getUserInfo(event.accessToken);
       emit(UserInfoFetchSuccessful(userInfo: userInfo));
