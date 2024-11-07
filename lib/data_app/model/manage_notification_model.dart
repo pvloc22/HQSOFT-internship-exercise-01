@@ -8,8 +8,19 @@ class ManageNotification{
   final int? total;
   final List<NotificationModel>? notifications;
 
-  ManageNotification({required this.total, required this.notifications});
+  ManageNotification({
+    this.total = 0,
+    this.notifications = const [],
+  });
+  ManageNotification.withRequired({
+    required this.total,
+    required this.notifications,
+  });
 
   factory ManageNotification.fromJson(Map<String, dynamic> json) => _$ManageNotificationFromJson(json);
   Map<String, dynamic> toJson() => _$ManageNotificationToJson(this);
+
+  void addMoreNotifications(List<NotificationModel> newNotifications) {
+    notifications!.addAll(newNotifications);  // Append new notifications
+  }
 }

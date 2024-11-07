@@ -1,9 +1,7 @@
 import 'package:esale_sfa_2023r1_framework_sample_basic/core/local_storage/base_preferences.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/core/logic/factory_type_notification.dart';
-import 'package:esale_sfa_2023r1_framework_sample_basic/core/logic/logic.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/model/count_notification_model.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/model/manage_notification_model.dart';
-import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/model/notification_model.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/repository/notification_responsitory.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/notification/notification_bloc/notification_event.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/notification/notification_bloc/notification_state.dart';
@@ -18,14 +16,14 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState>{
     on<SwitchKindNotification> (_switchNotification);
     on<ReadNotification> (_readNotification);
     on<RefreshNotification> (_refreshNotification);
-    // on<LoadMoreNotification> (_loadMoreNotification);
+    on<LoadMoreNotification> (_loadMoreNotification);
   }
 
   void _loadedNotification(FetchNotifications event, Emitter emit) async {
     emit(NotificationLoadingFullSplash());
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final String token = await basePreferences.getTokenPreferred('token') ?? '';
+    final String token = await basePreferences.getTokenPreferred('token');
     try{
       if(token.isNotEmpty){
         final CountNotification countNotification = await _notificationRepo.getCountNotification(token);
@@ -48,9 +46,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState>{
     emit(NotificationLoadingBodySplash());
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final String token = await basePreferences.getTokenPreferred('token') ?? '';
+    final String token = await basePreferences.getTokenPreferred('token');
     try{
-      final CountNotification countNotification = await _notificationRepo.getCountNotification(token);
       final ManageNotification manageNotification = await _notificationRepo.getNotifications(token, event.typeNotification,0);
 
       emit(NotificationSwitched(manageNotification: manageNotification, index: event.indexSwitch));
@@ -61,7 +58,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState>{
     }
   }
   void _readNotification(ReadNotification event, Emitter emit) async{
-    final String token = await basePreferences.getTokenPreferred('token') ?? '';
+    final String token = await basePreferences.getTokenPreferred('token');
     try{
       final bool isReadNotification = await _notificationRepo.postReadNotification(token, event.notification);
       if(isReadNotification){
@@ -81,7 +78,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState>{
     emit(NotificationLoadingFullSplash());
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final String token = await basePreferences.getTokenPreferred('token') ?? '';
+    final String token = await basePreferences.getTokenPreferred('token');
 
     /// Name of notification will get by index
     final String nameTypeNotification = FactoryTypeNotification.getTypeNotification(event.indexNotificationBeforeNavigator);
@@ -105,9 +102,9 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState>{
   void _loadMoreNotification(LoadMoreNotification event, Emitter emit) async {
 
     emit(NotificationLoadingMoreSplash());
-    await Future.delayed(const Duration(milliseconds: 15000));
+    await Future.delayed(const Duration(milliseconds: 500));
 
-    final String token = await basePreferences.getTokenPreferred('token') ?? '';
+    final String token = await basePreferences.getTokenPreferred('token');
     String typeNotification = FactoryTypeNotification.getTypeNotification(event.indexNotification);
 
     try{

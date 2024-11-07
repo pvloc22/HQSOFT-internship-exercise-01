@@ -35,7 +35,7 @@ class _BaseBottomAppbarState extends State<BaseBottomAppbar> {
           listener: (context, state){
             if(state is NotificationInitialized ){
               setState(() {
-                countNotification  = state.countNotification;
+                countNotification = state.countNotification;
               });
             }
           },

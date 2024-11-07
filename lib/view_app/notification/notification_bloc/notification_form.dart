@@ -1,9 +1,7 @@
-import 'package:esale_sfa_2023r1_framework_sample_basic/core/logic/factory_type_notification.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/core/logic/logic.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/core/view_components/base_appbar.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/model/manage_notification_model.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/model/notification_model.dart';
-import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/login/login_bloc/login_bloc.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/notification/notification_bloc/notification_bloc.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/notification/notification_bloc/notification_event.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/notification/notification_bloc/notification_state.dart';
@@ -22,24 +20,28 @@ class NotificationForm extends StatefulWidget {
 
 class _NotificationFormState extends State<NotificationForm>  {
 
-  // final Map<int, ScrollController> _scrollControllers = {};
-  // final Map<int, int> _pageIndexes = {};
+  final Map<int, ScrollController> _scrollControllers = {};
+  final Map<int, int> _pageIndexes = {};
+
+  late ManageNotification _manageNotification = ManageNotification();
+  int index = 0;
 
 
   @override
   void initState() {
+    // _manageNotification = ManageNotification();
     for (int i = 0; i < 5; i++) {
-      // _scrollControllers[i] = ScrollController()..addListener(() => _scrollListener(i));
-      // _pageIndexes[i] = 0;
+      _scrollControllers[i] = ScrollController()..addListener(() => _scrollListener(i));
+      _pageIndexes[i] = 0;
     }
 
     super.initState();
   }
-  // @override
-  // void dispose() {
-  //   _scrollControllers.values.forEach((controller) => controller.dispose());
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _scrollControllers.values.forEach((controller) => controller.dispose());
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,49 +64,63 @@ class _NotificationFormState extends State<NotificationForm>  {
                         return const Center(child: CircularProgressIndicator());
                       });
                 }
-
                 else if(state is NotificationInitialized){
+                  setState(() {
+                    _manageNotification = state.manageNotification;
+                    index = state.index;
+                    _pageIndexes[index] = 0;
+                  });
                   Navigator.of(context, rootNavigator: true).pop();
                 }
-              },
-              child:BlocBuilder<NotificationBloc, NotificationState>
-                (builder: (context, state) {
-                if(state is NotificationInitialized){
-                  return _bodyNotification(state.manageNotification,state.index);
-                }
                 else if(state is NotificationSwitched){
-                  return _bodyNotification(state.manageNotification,state.index);
+                  setState(() {
+                    _manageNotification = state.manageNotification;
+                    index = state.index;
+                    _pageIndexes[index] = 0;
+                  });
                 }
-                else if(state is NotificationLoadingBodySplash){
+                else if(state is NotificationLoadedMore){
+                  setState(() {
+                    _manageNotification.addMoreNotifications(state.manageNotification.notifications ?? []);
+                    index = state.index;
+                  });
+                }
+              },
+              child: BlocBuilder<NotificationBloc, NotificationState>
+                (builder: (context, state) {
+                  if(state is NotificationLoadingBodySplash){
                   return const Center(child: CircularProgressIndicator());
                 }
-                else
-                  return const Center(child: Text('Error'));
+                  else if(state is NotificationError){
+                    return const Center(child: Text('Error'),);
+                  }
+                else {
+                    return _bodyNotification(_manageNotification,index, state);
+                  }
               }),
           )
-
-
 
       ),
     );
   }
 
-  Widget _bodyNotification(ManageNotification manageNotification, int currentTypeNotification){
+  Widget _bodyNotification(ManageNotification manageNotification, int currentTypeNotification, NotificationState state){
 
     if(manageNotification.notifications!.isEmpty){
+      if(state is NotificationLoadingFullSplash)
+        return SizedBox();
       return const Center(
         child: Text("Empty!"),
       );
     }
     else{
-
       return ListView.builder(
-          itemCount: manageNotification.notifications!.length,
+        controller: _scrollControllers[currentTypeNotification],
+          itemCount: manageNotification.notifications!.length +((state is NotificationLoadingMoreSplash) ? 1 : 0) ,
           itemBuilder: (BuildContext context, index) {
-            // print(manageNotification.notifications![index].notifyType);
-            print(index);
+          if(index < manageNotification.notifications!.length){
             if(manageNotification.notifications![index].notifyType == 'AUTOPROMO'){
-              return _itemNotification(FontAwesomeIcons.gift, Colors.red,manageNotification!.notifications![index], currentTypeNotification);
+              return _itemNotification(FontAwesomeIcons.gift, Colors.red,manageNotification.notifications![index], currentTypeNotification);
             }
             else if(manageNotification.notifications![index].notifyType == 'DISPLAY'){
               return _itemNotification(FontAwesomeIcons.building, const Color(0xFF5757FE),manageNotification.notifications![index], currentTypeNotification);
@@ -112,22 +128,25 @@ class _NotificationFormState extends State<NotificationForm>  {
             else if(manageNotification.notifications![index].notifyType == 'ACCUMULATE'){
               return _itemNotification(FontAwesomeIcons.handHoldingDollar, const Color(0xFFEF3793),manageNotification.notifications![index], currentTypeNotification);
             }
-            // if(state is NotificationLoadingMoreSplash){
-            //   return const Center(
-            //     child: CircularProgressIndicator(),
-            //   );
-            // }
+          }
+          else{
+            return const Center(child: CircularProgressIndicator(),);
+          }
+          return null;
           });;
     }
   }
 
-  // void _scrollListener(int indexNotification) {
-  //   if (_scrollControllers[indexNotification]!.position.pixels == _scrollControllers[indexNotification]!.position.maxScrollExtent) {
-  //     _pageIndexes[indexNotification] = _pageIndexes[indexNotification]! + 1;
-  //     context.read<NotificationBloc>().add(LoadMoreNotification(pageIndex: _pageIndexes[indexNotification]!, indexNotification: indexNotification));
-  //     print(_pageIndexes[indexNotification]);
-  //   }
-  // }
+  void _scrollListener(int indexNotification) {
+    if (_scrollControllers[indexNotification]!.position.pixels == _scrollControllers[indexNotification]!.position.maxScrollExtent) {
+      int a = _manageNotification.notifications!.length;
+      if(a < (_manageNotification.total ?? 0)){
+        _pageIndexes[indexNotification] = _pageIndexes[indexNotification]! + 1;
+        context.read<NotificationBloc>().add(LoadMoreNotification(pageIndex: _pageIndexes[indexNotification]!, indexNotification: indexNotification));
+        print(_pageIndexes[indexNotification]);
+      }
+    }
+  }
 
 
   Widget _itemNotification(IconData icon, Color color,NotificationModel notification, int currentTypeNotification){
@@ -190,16 +209,18 @@ class _NotificationFormState extends State<NotificationForm>  {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(child: Text(title, style: const TextStyle(fontSize: 14,  fontWeight: FontWeight.bold),)),
               isRead
                   ? const SizedBox()
-                  :               Stack(
+                  :Stack(
                 alignment: Alignment.center,
                 children: [
                   Container(
                     height: 16,
                     width: 16,
+                    margin: EdgeInsets.only(left: 10),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
@@ -211,6 +232,7 @@ class _NotificationFormState extends State<NotificationForm>  {
                   Container(
                     height: 8,
                     width: 8,
+                    margin: EdgeInsets.only(left: 10),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(

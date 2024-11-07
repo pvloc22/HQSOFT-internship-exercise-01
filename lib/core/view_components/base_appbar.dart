@@ -1,5 +1,4 @@
 import 'package:esale_sfa_2023r1_framework_sample_basic/core/view_components/base_bottom_appbar.dart';
-import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/model/count_notification_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

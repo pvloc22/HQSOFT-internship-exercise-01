@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:esale_sfa_2023r1_framework_sample_basic/core/logic/logic.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/model/count_notification_model.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/model/manage_notification_model.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/model/notification_model.dart';
@@ -79,7 +80,7 @@ class NotificationApiClient {
       "branchID": "",
       "slsperID": "S14",
       "notifyID": "${notification.notifyID}",
-      "notifyTime": "2023-11-06T12:34:56Z",  // Định dạng ISO 8601
+      "notifyTime": ParseDate.parseDateStandard((notification.notifyTime) as String),
       "notifyType": "${notification.notifyType}"
     });
     final headers = {

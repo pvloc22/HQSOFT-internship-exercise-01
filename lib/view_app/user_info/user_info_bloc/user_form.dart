@@ -5,7 +5,6 @@ import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/user_info/user_
 import 'package:esale_sfa_2023r1_framework_sample_basic/view_app/user_info/user_info_bloc/user_info_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UserForm extends StatefulWidget {
 
