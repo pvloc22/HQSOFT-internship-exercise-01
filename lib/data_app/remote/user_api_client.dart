@@ -13,6 +13,7 @@ class UserApiClient{
       'Authorization': "Bearer $accessToken",
     };
     try{
+      print(accessToken);
       var response = await http.get(url, headers: headers);
       if(response.statusCode == 200 || response.statusCode == 201){
         var data = jsonDecode(response.body);

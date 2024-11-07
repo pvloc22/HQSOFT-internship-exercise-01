@@ -23,6 +23,7 @@ class LoginApiClient {
       );
       if(response.statusCode == 200 || response.statusCode == 201){
         final data = jsonDecode(response.body);
+        print('token api login: ${data['access_token']}');
         return data['access_token'];
       }
       else{

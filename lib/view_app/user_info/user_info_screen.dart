@@ -5,14 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserInfoScreen extends StatelessWidget {
-  final String accessToken;
-
-  const UserInfoScreen({super.key, required this.accessToken});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (BuildContext context) => UserInfoBloc(UserRepository()),
-    child: UserForm(accessToken: accessToken,),);
+    child: UserForm(),);
   }
 }

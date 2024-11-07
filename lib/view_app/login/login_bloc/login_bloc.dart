@@ -1,4 +1,5 @@
 
+import 'package:esale_sfa_2023r1_framework_sample_basic/core/local_storage/base_preferences.dart';
 import 'package:esale_sfa_2023r1_framework_sample_basic/data_app/repository/login_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc_login.dart';
@@ -17,6 +18,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState>{
 
     try{
       String accessToken = await _loginRepo.loginAuthenticate(event.account, event.password);
+      /// Save token to SharePreferences.
+      await basePreferences.setTokenPreferred('token', accessToken);
+
       emit( LoginSuccessful(accessToken: accessToken));
     }
     catch(error){

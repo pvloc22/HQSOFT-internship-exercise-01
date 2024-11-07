@@ -7,4 +7,5 @@ class UserRepository {
   Future<User> getUserInfo(String accessToken) async{
     return await userApiClient.fetchUserInfo(accessToken);
   }
+
 }
