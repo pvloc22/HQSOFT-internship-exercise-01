@@ -11,12 +11,14 @@ abstract class NotificationState extends Equatable{
   // TODO: implement props
   List<Object?> get props => [];
 }
+
 class NotificationUninitialized extends NotificationState{
 
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
+
 class NotificationInitialized extends NotificationState{
   final int index;
   final ManageNotification manageNotification;
@@ -24,15 +26,14 @@ class NotificationInitialized extends NotificationState{
 
   NotificationInitialized({required this.index,required this.manageNotification, required this.countNotification});
 
-
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
+
 class NotificationSwitched extends NotificationState{
   final int index;
   final ManageNotification manageNotification;
-
 
   NotificationSwitched({required this.index, required this.manageNotification});
 
@@ -46,22 +47,24 @@ class NotificationLoadingBodySplash extends NotificationState{
   // TODO: implement props
   List<Object?> get props => [];
 }
+
 class NotificationLoadingFullSplash extends NotificationState{
 
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
+
 class NotificationLoadingMoreSplash extends NotificationState{
 
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
+
 class NotificationLoadedMore extends NotificationState{
   final int index;
   final ManageNotification manageNotification;
-
 
   NotificationLoadedMore({required this.index, required this.manageNotification});
 
@@ -70,12 +73,14 @@ class NotificationLoadedMore extends NotificationState{
 }
 
 class NotificationNotLoadedMore extends NotificationState{
+
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
 class NotificationReadSuccess extends NotificationState{
+
   @override
   // TODO: implement props
   List<Object?> get props => [];

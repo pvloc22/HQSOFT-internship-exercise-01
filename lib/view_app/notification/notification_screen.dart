@@ -12,8 +12,11 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
-        BlocProvider(
-        create: (BuildContext context) => NotificationBloc(NotificationRepository())..add(FetchNotifications()),)
+      BlocProvider(
+        create: (BuildContext context) =>
+            NotificationBloc(NotificationRepository())
+              ..add(FetchNotifications()),
+      )
     ], child: const NotificationForm());
   }
 }

@@ -1,14 +1,15 @@
-
 import 'package:flutter/cupertino.dart';
 
 @immutable
-abstract class LoginEvent{
+abstract class LoginEvent {
   const LoginEvent();
 }
-class LoginReset extends LoginEvent{
+
+class LoginReset extends LoginEvent {
   const LoginReset();
 }
-class LoginPress extends LoginEvent{
+
+class LoginPress extends LoginEvent {
   final String account;
   final String password;
 

@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part '../model_map_json/user_model.g.dart';
 
 @JsonSerializable()
-class User extends Equatable{
+class User extends Equatable {
   final String? username;
   final String? address;
   final String? fullName;
@@ -24,14 +25,17 @@ class User extends Equatable{
     required this.roleID,
     required this.roleDesc,
     required this.distributorName,
-});
+  });
 
-  factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
-  Map<String, dynamic> toJson()=> _$UserToJson(this);
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+
   @override
   // TODO: implement props
   List<Object> get props => [];
 
   @override
-  String toString() => 'User {username: $username, address: $address, fullName: $fullName, email: $email, tel: $tel, avatar: $avatar, roleID: $roleID, roleDesc: $roleDesc, distributorName:$distributorName';
+  String toString() =>
+      'User {username: $username, address: $address, fullName: $fullName, email: $email, tel: $tel, avatar: $avatar, roleID: $roleID, roleDesc: $roleDesc, distributorName:$distributorName';
 }

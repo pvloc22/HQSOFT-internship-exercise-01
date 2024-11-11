@@ -1,6 +1,6 @@
-class FactoryTypeNotification{
-  static String getTypeNotification(int index){
-    switch(index){
+class FactoryTypeNotification {
+  static String getTypeNotification(int index) {
+    switch (index) {
       case 0:
         return '';
       case 1:

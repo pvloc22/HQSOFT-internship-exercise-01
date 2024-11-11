@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
           listener: (context, state) {
             if (state is LoginSuccessful) {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) =>  UserInfoScreen()))
+                      MaterialPageRoute(builder: (context) => UserInfoScreen()))
                   .then((_) {
                 context.read<LoginBloc>().add(const LoginReset());
               });
@@ -110,45 +110,44 @@ class _LoginFormState extends State<LoginForm> {
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       ),
-                        Column(
-                          children: [
-                            TextField(
-                              controller: accountController,
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(CupertinoIcons.person),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                hintText: 'S_08',
-                                hintStyle: const TextStyle(color: Colors.grey),
+                      Column(
+                        children: [
+                          TextField(
+                            controller: accountController,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(CupertinoIcons.person),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              hintText: 'S_08',
+                              hintStyle: const TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextField(
+                            controller: passwordController,
+                            obscureText: passwordVisible,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(CupertinoIcons.lock),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              hintText: 'Admin@2024',
+                              hintStyle: const TextStyle(color: Colors.grey),
+                              suffixIcon: IconButton(
+                                icon: passwordVisible
+                                    ? const Icon(CupertinoIcons.eye_slash_fill)
+                                    : const Icon(CupertinoIcons.eye_fill),
+                                onPressed: () {
+                                  setState(() {
+                                    passwordVisible = !passwordVisible;
+                                  });
+                                },
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextField(
-                              controller: passwordController,
-                              obscureText: passwordVisible,
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(CupertinoIcons.lock),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                hintText: 'Admin@2024',
-                                hintStyle: const TextStyle(color: Colors.grey),
-                                suffixIcon: IconButton(
-                                  icon: passwordVisible
-                                      ? const Icon(
-                                          CupertinoIcons.eye_slash_fill)
-                                      : const Icon(CupertinoIcons.eye_fill),
-                                  onPressed: () {
-                                    setState(() {
-                                      passwordVisible = !passwordVisible;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
                       SizedBox(
                         height: 40,
                         width: 200,
